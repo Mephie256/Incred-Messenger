@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+  color: black;
+}
+
+.app__form {
+  padding: 20px;
+  background-color: #e9e9eb;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  margin: 20px;
+  border-radius: 10px;
+  align-items: center !important;
+
+}
+
+.formContol {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+
+}
+
+.input {
+  flex: 0.9;
+  align-items: center;
+}
+
+.button {
+  flex: 0;
+}
+
+.IMG {
+  margin-top: 20px;
+
+}

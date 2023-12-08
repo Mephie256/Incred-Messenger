@@ -1,0 +1,98 @@
+import { useEffect, useState } from 'react'
+import './App.css'
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { Button, FormControl, Input, InputLabel } from '@mui/material';
+import Message from './assets/Message';
+import db from './assets/firebase';
+
+
+
+function App() {
+    const [input, setInput] = useState('');
+    const [messages, setMessages] = useState([
+        { username: 'cool', message: 'OOh' },
+        { username: 'rashid', message: 'RiP Bro' }]
+    );
+    const [username, setUsername] = useState('')
+
+    useEffect(() => {
+        db.collection('messages').onSnapshot(snapshot => {
+            setMessages(snapshot.docs.map(doc => doc.data()))
+        })
+    }, [])
+
+    useEffect(() => {
+        setUsername(prompt('Please enter username'))
+    }, []);
+
+    const sendMsg = (event) => {
+        //All the logic to send the messsage goes here
+        setMessages([...messages, { username: username, text: input }]);
+        setInput(['']);
+        event.preventDefault();
+    };
+
+
+
+    return (
+        <div className= 'App' >
+        <h1>Hello Increds < /h1>
+            < h2 > Welcome { username } </h2>
+                < form >
+                <FormControl>
+                <InputLabel>Enter Message < /InputLabel>
+                    < Input value = { input } onChange = { event => setInput(event.target.value) } > </Input>
+                        < Button disabled = {!input
+} color = 'primary' variant = 'contained' type = 'submit' onClick = { sendMsg } >
+    Send Message
+        < /Button>
+
+        < /FormControl>
+        < /form>
+
+{
+    messages.map(message => (
+        <Message username= { username } message = { message } />
+
+        ))
+}
+</div>
+
+  )
+}
+
+export default App
+
+//msg file-
+
+import React from 'react'
+import { Typography, Card, CardContent } from '@mui/material';
+import './Message.css';
+import './Message.css';
+
+function Message({ message, username }) {
+    const isUser = username === message.username;
+    return (
+        <div className= {`message ${isUser && 'massage__user'}`
+}>
+    <Card className={ isUser ? 'massage__userCard' : 'massage__guestCard' }>
+        <CardContent>
+        <Typography
+                        color='white'
+variant = 'h5'
+component = 'h2'
+    >
+    { message.username }: { message.message }
+</Typography>
+    < /CardContent>
+    < /Card>
+    < /div>
+
+
+    )
+}
+
+export default Message
